@@ -50,7 +50,7 @@ const handleResend =()=>{
       
       <Text>
   Didn't get the Email?{' '}
-  <Text style={styles.register} onPress={handleResend}>
+  <Text style={styles.resend} onPress={handleResend}>
     Resend
   </Text>
 </Text>
@@ -96,12 +96,8 @@ const styles = StyleSheet.create({
     marginTop: 5,
     marginBottom: 10,
   },
-  forgotPassword: {
-    marginTop: 10,
-    color: 'blue',
-    textDecorationLine: 'underline',
-  },
-  register: {
+  
+  resend: {
     marginTop: 10,
     color: 'blue',
     textDecorationLine: 'underline',
