@@ -3,6 +3,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from "@react-navigation/native-stack"
 import WelcomeScreen from './screens/WelcomeScreen';
 import LoginScreen from './screens/LoginScreen';
+import ResetPasswordScreen from './screens/ResetPasswordScreen';
 
 
 const Stack = createNativeStackNavigator();
@@ -24,6 +25,14 @@ export default function App() {
         <Stack.Screen
           name="Login"
           component={LoginScreen}
+          options={{
+            headerShown: false
+          }}
+        />
+
+    <Stack.Screen
+          name="Reset"
+          component={ResetPasswordScreen}
           options={{
             headerShown: false
           }}

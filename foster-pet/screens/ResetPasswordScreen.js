@@ -1,16 +1,15 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
 
-const LoginScreen = ({ navigation }) => {
+const ResetPasswordScreen = ({ navigation }) => {
   const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-
+  
   const [emailError, setEmailError] = useState('');
-  const [passwordError, setPasswordError] = useState('');
-
-  const handleLogin = () => {
+  
+  //reset password
+  const handleReset = () => {
     setEmailError('');
-    setPasswordError('');
+   
     
     const regex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
@@ -20,20 +19,22 @@ const LoginScreen = ({ navigation }) => {
     } else if (!regex.test(email)) {
       setEmailError('Please enter a valid email address.');
       return;
-    } else if (!password) {
-      setPasswordError('Password is required.');
-      return;
-    }
+    } 
 
-    // Call the login function
+    // Call the reset passowrd function
 
-    //navigate to home
-    navigation.navigate('Home');
+    
   };
+
+//resend email
+const handleResend =()=>{
+    //call resend email function
+}
+
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Login Page</Text>
+      <Text style={styles.title}>Reset Password</Text>
       <TextInput
         style={styles.input}
         placeholder="Email Address"
@@ -41,30 +42,16 @@ const LoginScreen = ({ navigation }) => {
         value={email}
       />
       {emailError && <Text style={styles.error}>{emailError}</Text>}
-      <TextInput
-        style={styles.input}
-        placeholder="Password"
-        onChangeText={(text) => setPassword(text)}
-        value={password}
-        secureTextEntry={true}
-      />
-      {passwordError && <Text style={styles.error}>{passwordError}</Text>}
+      
 
-      <Text>
- Forgot Password?{' '}
-  <Text style={styles.register} onPress={() => navigation.navigate('Reset')}>
-    Reset Password
-  </Text>
-</Text>
-
-      <TouchableOpacity style={styles.button} onPress={handleLogin}>
-        <Text style={styles.buttonText}>Login</Text>
+      <TouchableOpacity style={styles.button} onPress={handleReset}>
+        <Text style={styles.buttonText}>Send reset link</Text>
       </TouchableOpacity>
       
       <Text>
-  You don't have an account?{' '}
-  <Text style={styles.register} onPress={() => navigation.navigate('Signup')}>
-    Register
+  Didn't get the Email?{' '}
+  <Text style={styles.register} onPress={handleResend}>
+    Resend
   </Text>
 </Text>
     </View>
@@ -121,4 +108,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default LoginScreen;
+export default ResetPasswordScreen;
