@@ -1,16 +1,19 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
 
-const LoginScreen = ({ navigation }) => {
+const RegisterScreen = ({ navigation }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [confirmPassword,setConfirmPassword]=useState('');
 
   const [emailError, setEmailError] = useState('');
   const [passwordError, setPasswordError] = useState('');
+  const [confirmPasswordError,setConfirmPasswordError]=useState('');
 
-  const handleLogin = () => {
+  const handleNext = () => {
     setEmailError('');
     setPasswordError('');
+    setConfirmPasswordError('');
     
     const regex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
@@ -23,17 +26,26 @@ const LoginScreen = ({ navigation }) => {
     } else if (!password) {
       setPasswordError('Password is required.');
       return;
+    }else if(password.length<8){
+        setPasswordError('Password must have minimum 8 charactors');
+      return;
+    }else if(!confirmPassword){
+        setConfirmPasswordError('Confirm Password is required.');
+      return;
+    }else if(password!==confirmPassword){
+        setConfirmPasswordError('Confirm Password should be match with password.');
+      return;
     }
 
-    // Call the login function
+    // store data in object
 
-    //navigate to home
-    navigation.navigate('Home');
+    //navigate to second register screen
+    navigation.navigate('Signup2');
   };
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Login Page</Text>
+      <Text style={styles.title}>Register</Text>
       <TextInput
         style={styles.input}
         placeholder="Email Address"
@@ -50,23 +62,27 @@ const LoginScreen = ({ navigation }) => {
       />
       {passwordError && <Text style={styles.error}>{passwordError}</Text>}
 
+      <TextInput
+        style={styles.input}
+        placeholder="Confirm Password"
+        onChangeText={(text) => setConfirmPassword(text)}
+        value={confirmPassword}
+        secureTextEntry={true}
+      />
+      {confirmPasswordError && <Text style={styles.error}>{confirmPasswordError}</Text>}
+
       <Text>
- Forgot Password?{' '}
-  <Text style={styles.forgotPassword} onPress={() => navigation.navigate('Reset')}>
-    Reset Password
+ Already have an account?{' '}
+  <Text style={styles.login} onPress={() => navigation.navigate('Login')}>
+    Login
   </Text>
 </Text>
 
-      <TouchableOpacity style={styles.button} onPress={handleLogin}>
-        <Text style={styles.buttonText}>Login</Text>
+      <TouchableOpacity style={styles.button} onPress={handleNext}>
+        <Text style={styles.buttonText}>Next</Text>
       </TouchableOpacity>
       
-      <Text>
-  You don't have an account?{' '}
-  <Text style={styles.register} onPress={() => navigation.navigate('Signup')}>
-    Register
-  </Text>
-</Text>
+      
     </View>
   );
 };
@@ -109,16 +125,11 @@ const styles = StyleSheet.create({
     marginTop: 5,
     marginBottom: 10,
   },
-  forgotPassword: {
-    marginTop: 10,
-    color: 'blue',
-    textDecorationLine: 'underline',
-  },
-  register: {
+  login: {
     marginTop: 10,
     color: 'blue',
     textDecorationLine: 'underline',
   },
 });
 
-export default LoginScreen;
+export default RegisterScreen;
