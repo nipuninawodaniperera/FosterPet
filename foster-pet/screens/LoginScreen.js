@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
+import UserService from '../services/UserService';
 
 const LoginScreen = ({ navigation }) => {
   const [email, setEmail] = useState('');
@@ -8,9 +9,12 @@ const LoginScreen = ({ navigation }) => {
   const [emailError, setEmailError] = useState('');
   const [passwordError, setPasswordError] = useState('');
 
-  const handleLogin = () => {
+  const [error,setError]=useState('');
+
+  const handleLogin = async() => {
     setEmailError('');
     setPasswordError('');
+    setError('');
     
     const regex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
@@ -26,14 +30,25 @@ const LoginScreen = ({ navigation }) => {
     }
 
     // Call the login function
+    try {
+      const userData = await UserService.login(email, password);
+      console.log('Logged in:', userData);
+      sessionStorage.setItem('token',userData.token);
 
-    //navigate to home
+      //navigate to home
     navigation.navigate('Home');
+    } catch (error) {
+      // Handle login error 
+      console.error('Login failed:', error.message);
+      setError("Invalid Email Address or Password");
+    }
+    
   };
 
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Login Page</Text>
+      {error && <Text style={styles.error}>{error}</Text>}
       <TextInput
         style={styles.input}
         placeholder="Email Address"
