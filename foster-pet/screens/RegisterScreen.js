@@ -1,23 +1,39 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
+import UserService from '../services/UserService';
 
 const RegisterScreen = ({ navigation }) => {
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState(''); 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword,setConfirmPassword]=useState('');
 
+  const [firstNameError, setFirstNameError] = useState('');
+  const [lastNameError, setLastNameError] = useState(''); 
   const [emailError, setEmailError] = useState('');
   const [passwordError, setPasswordError] = useState('');
   const [confirmPasswordError,setConfirmPasswordError]=useState('');
+  const [error,setError]=useState('');
 
-  const handleNext = () => {
+  const handleRegister = async() => {
+    setFirstNameError('');
+    setLastNameError('');
     setEmailError('');
     setPasswordError('');
     setConfirmPasswordError('');
+    setError('');
     
     const regex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
-    if (!email) {
+    if (!firstName) {
+      setFirstNameError('First name is required.');
+      return;
+    } else if (!lastName) {
+      setLastNameError('Last name is required.');
+      return;
+    }
+    else if (!email) {
       setEmailError('Email is required.');
       return;
     } else if (!regex.test(email)) {
@@ -37,15 +53,41 @@ const RegisterScreen = ({ navigation }) => {
       return;
     }
 
-    // store data in object
+    // call register function
+    try {
+      const userData = await UserService.register(firstName,lastName, email, password);
+      
+      console.log('Registered:', userData);
+      sessionStorage.setItem('token',userData.token);
+      //navigate to home screen
+    navigation.navigate('Home');
+    } catch (error) {
+      // Handle registration error 
+      console.error('Registration failed:', error.message);
+      setError('Already have an account with this Email Address');
+    }
 
-    //navigate to second register screen
-    navigation.navigate('Signup2');
+    
   };
 
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Register</Text>
+      {error && <Text style={styles.error}>{error}</Text>}
+      <TextInput
+        style={styles.input}
+        placeholder="First Name"
+        onChangeText={(text) => setFirstName(text)}
+        value={firstName}
+      />
+      {firstNameError && <Text style={styles.error}>{firstNameError}</Text>}
+      <TextInput
+        style={styles.input}
+        placeholder="Last Name"
+        onChangeText={(text) => setLastName(text)}
+        value={lastName}
+      />
+      {lastNameError && <Text style={styles.error}>{lastNameError}</Text>}
       <TextInput
         style={styles.input}
         placeholder="Email Address"
@@ -78,8 +120,8 @@ const RegisterScreen = ({ navigation }) => {
   </Text>
 </Text>
 
-      <TouchableOpacity style={styles.button} onPress={handleNext}>
-        <Text style={styles.buttonText}>Next</Text>
+      <TouchableOpacity style={styles.button} onPress={handleRegister}>
+        <Text style={styles.buttonText}>Register</Text>
       </TouchableOpacity>
       
       

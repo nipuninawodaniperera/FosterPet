@@ -5,7 +5,6 @@ import WelcomeScreen from './screens/WelcomeScreen';
 import LoginScreen from './screens/LoginScreen';
 import ResetPasswordScreen from './screens/ResetPasswordScreen';
 import RegisterScreen from './screens/RegisterScreen';
-import SecondRegisterScreen from './screens/SecondRegisterScreen';
 
 
 const Stack = createNativeStackNavigator();
@@ -47,13 +46,7 @@ export default function App() {
           }}
         />  
 
-<Stack.Screen
-          name="Signup2"
-          component={SecondRegisterScreen}
-          options={{
-            headerShown: false
-          }}
-        />  
+ 
         
       </Stack.Navigator>
     </NavigationContainer>
