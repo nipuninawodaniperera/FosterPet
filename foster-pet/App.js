@@ -5,6 +5,8 @@ import WelcomeScreen from './screens/WelcomeScreen';
 import LoginScreen from './screens/LoginScreen';
 import ResetPasswordScreen from './screens/ResetPasswordScreen';
 import RegisterScreen from './screens/RegisterScreen';
+import HomeScreen from './screens/HomeScreen';
+import ContinueWithEmailScreen from './screens/ContinueWithEmailScreen';
 
 
 const Stack = createNativeStackNavigator();
@@ -19,6 +21,13 @@ export default function App() {
          <Stack.Screen
           name="Welcome"
           component={WelcomeScreen}
+          options={{
+            headerShown: false
+          }}
+        />
+        <Stack.Screen
+          name="Email"
+          component={ContinueWithEmailScreen}
           options={{
             headerShown: false
           }}
@@ -41,6 +50,13 @@ export default function App() {
       <Stack.Screen
           name="Signup"
           component={RegisterScreen}
+          options={{
+            headerShown: false
+          }}
+        />  
+      <Stack.Screen
+          name="Home"
+          component={HomeScreen}
           options={{
             headerShown: false
           }}
