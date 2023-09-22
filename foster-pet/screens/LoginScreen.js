@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
 import UserService from '../services/UserService';
+import Navbar from '../components/Navbar';
 
 const LoginScreen = ({ navigation }) => {
   const [email, setEmail] = useState('');
@@ -47,6 +48,7 @@ const LoginScreen = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
+      <View style={styles.content}>
       <Text style={styles.title}>Login Page</Text>
       {error && <Text style={styles.error}>{error}</Text>}
       <TextInput
@@ -82,6 +84,8 @@ const LoginScreen = ({ navigation }) => {
     Register
   </Text>
 </Text>
+</View>
+<Navbar/>
     </View>
   );
 };
@@ -92,6 +96,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  content:{
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+
   title: {
     fontSize: 20,
     fontWeight: 'bold',
