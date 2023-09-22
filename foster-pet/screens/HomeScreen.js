@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Picker } from 'react-native';
 import DatePicker from 'react-native-datepicker';
+import ClickableCard from '../components/ClickableCard';
 
 const HomeScreen = ({ navigation }) => {
   const [location, setLocation] = useState('');
@@ -13,6 +14,16 @@ const HomeScreen = ({ navigation }) => {
   const handleSearch = () => {
     // Implement your search logic here
     // You can access the form values like location, checkinDate, etc.
+  };
+
+  const handleCardOnePress = () => {
+    // Handle the click event here
+    console.log('Card clicked!');
+  };
+
+  const handleCardTwoPress = () => {
+    // Handle the click event here
+    console.log('Card clicked!');
   };
 
   return (
@@ -108,7 +119,17 @@ const HomeScreen = ({ navigation }) => {
       </View>
       <View style={styles.more}>
       <Text >More for you......</Text>
+      <ClickableCard
+        title=""
+        description="Get start as a professional kennel owner"
+        onPress={handleCardOnePress}
+      />
 
+<ClickableCard
+        title=""
+        description="Get start as a volunteer pet sitter"
+        onPress={handleCardTwoPress}
+      />
       </View>
     </View>
   );
