@@ -1,11 +1,21 @@
-import React from 'react';
+import React,{useEffect} from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 
 const WelcomeScreen = ({ navigation }) => {
+
+  useEffect(() => {
+    // Auto-navigate to the login page after 10 seconds
+    const timer = setTimeout(() => {
+      navigation.navigate('Email');
+    }, 3000);
+
+    return () => clearTimeout(timer);
+  }, [navigation]);
+
   return (
     <View style={styles.container}>
       <Text style={styles.text}>Welcome to FosterPet</Text>
-      <View style={styles.buttonContainer}>
+      {/* <View style={styles.buttonContainer}>
         <TouchableOpacity
           style={styles.button}
           onPress={() => {
@@ -24,7 +34,7 @@ const WelcomeScreen = ({ navigation }) => {
         >
           <Text style={styles.buttonText}>Signup</Text>
         </TouchableOpacity>
-      </View>
+      </View> */}
     </View>
   );
 };
