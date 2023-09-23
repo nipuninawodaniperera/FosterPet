@@ -58,9 +58,9 @@ const RegisterScreen = ({ navigation }) => {
       const userData = await UserService.register(firstName,lastName, email, password);
       
       console.log('Registered:', userData);
-      sessionStorage.setItem('token',userData.token);
+      //sessionStorage.setItem('token',userData.token);
       //navigate to home screen
-    navigation.navigate('Home');
+    navigation.navigate('EmailVerification');
     } catch (error) {
       // Handle registration error 
       console.error('Registration failed:', error.message);

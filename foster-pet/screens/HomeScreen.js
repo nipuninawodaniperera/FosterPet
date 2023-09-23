@@ -1,16 +1,20 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Picker, ScrollView } from 'react-native';
-import DatePicker from 'react-native-datepicker';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
+import DateTimePicker from '@react-native-community/datetimepicker';
+import {Picker} from '@react-native-picker/picker';
 import ClickableCard from '../components/ClickableCard';
 import Navbar from '../components/Navbar';
 
 const HomeScreen = ({ navigation }) => {
   const [location, setLocation] = useState('');
-  const [checkinDate, setCheckinDate] = useState('');
-  const [checkoutDate, setCheckoutDate] = useState('');
+  const [checkinDate, setCheckinDate] = useState(new Date());
+  const [checkoutDate, setCheckoutDate] = useState(new Date());
   const [petType, setPetType] = useState('');
   const [petBreed, setPetBreed] = useState('');
   const [petCareType, setPetCareType] = useState('');
+  const [showCheckinDatePicker,setShowCheckinDatePicker]=useState(false);
+  const [showCheckoutDatePicker,setShowCheckoutDatePicker]=useState(false);
+
 
   const handleSearch = () => {
     // Implement your search logic here
@@ -39,49 +43,56 @@ const HomeScreen = ({ navigation }) => {
             value={location}
             onChangeText={text => setLocation(text)}
           />
+
           <View style={styles.datePickerContainer}>
-            <DatePicker
-              style={styles.datePicker}
-              date={checkinDate}
-              mode="date"
-              placeholder="Check-in Date"
-              format="YYYY-MM-DD"
-              confirmBtnText="Confirm"
-              cancelBtnText="Cancel"
-              customStyles={{
-                dateIcon: {
-                  position: 'absolute',
-                  left: 0,
-                  top: 4,
-                  marginLeft: 0,
-                },
-                dateInput: {
-                  marginLeft: 36,
-                },
-              }}
-              onDateChange={date => setCheckinDate(date)}
-            />
-            <DatePicker
-              style={styles.datePicker}
-              date={checkoutDate}
-              mode="date"
-              placeholder="Check-out Date"
-              format="YYYY-MM-DD"
-              confirmBtnText="Confirm"
-              cancelBtnText="Cancel"
-              customStyles={{
-                dateIcon: {
-                  position: 'absolute',
-                  left: 0,
-                  top: 4,
-                  marginLeft: 0,
-                },
-                dateInput: {
-                  marginLeft: 36,
-                },
-              }}
-              onDateChange={date => setCheckoutDate(date)}
-            />
+          <Text >Check-in Date</Text>
+          <TextInput
+  style={styles.input}
+  placeholder="Check-in Date"
+  value={checkinDate.toString()} // Display the selected date
+  onFocus={() => setShowCheckinDatePicker(true)} // Open the date picker when focused
+/>
+{showCheckinDatePicker && (
+  <DateTimePicker
+    value={checkinDate}
+    mode="date"
+    display="default"
+    onChange={(event, selectedDate) => {
+      if (event.type === 'set') {
+        setCheckinDate(selectedDate);
+        setShowCheckinDatePicker(false); // Close the picker
+      }
+    }}
+  />
+)}
+
+
+
+          </View>
+          <View style={styles.datePickerContainer}>
+          <Text >Check-out Date</Text>
+          
+
+<TextInput
+  style={styles.input}
+  placeholder="Check-out Date"
+  value={checkoutDate.toString()} // Display the selected date
+  onFocus={() => setShowCheckoutDatePicker(true)} // Open the date picker when focused
+/>
+{showCheckoutDatePicker && (
+  <DateTimePicker
+    value={checkoutDate}
+    mode="date"
+    display="default"
+    onChange={(event, selectedDate) => {
+      if (event.type === 'set') {
+        setCheckoutDate(selectedDate);
+        setShowCheckoutDatePicker(false); // Close the picker
+      }
+    }}
+  />
+)}
+
           </View>
           <View style={styles.rowContainer}>
             <Picker
@@ -101,7 +112,10 @@ const HomeScreen = ({ navigation }) => {
               onChangeText={text => setPetBreed(text)}
             />
           </View>
-          <Picker>
+          <Picker
+          style={styles.petCareTypeInput}
+          selectedValue={petCareType}
+          onValueChange={itemValue => setPetCareType(itemValue)}>
             <Picker.Item label="Select Pet Care Type" value="" />
             <Picker.Item label="Professional Kennel" value="kennel" />
             <Picker.Item label="Volunteer Pet Sitter" value="vlounteer" />
@@ -140,6 +154,9 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    marginTop:30,
+    marginHorizontal:10
+    
   },
   contentContainer: {
     // flexGrow: 1,
@@ -186,6 +203,13 @@ const styles = StyleSheet.create({
     height: 40,
     borderColor: 'gray',
     borderWidth: 1,
+  },
+  petCareTypeInput:{
+    flex: 1,
+    height: 40,
+    borderColor: 'gray',
+    borderWidth: 1,
+    marginRight: 10,
   },
   button: {
     backgroundColor: 'blue',
