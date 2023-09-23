@@ -40,16 +40,16 @@ const handleSkip =()=>{
       
       <View style={styles.buttonContainer}>
         <TouchableOpacity
-          style={styles.button}
+          style={[styles.button, styles.loginButton]}
           onPress={() => {
             // Handle login button press
             navigation.navigate('Login');
           }}
         >
-          <Text style={styles.buttonText}>Login</Text>
+          <Text style={[styles.buttonText, styles.loginButtonText]}>Log In</Text>
         </TouchableOpacity>
         <TouchableOpacity
-          style={styles.button}
+          style={[styles.button, styles.signupButton]}
           onPress={() => {
             // Handle signup button press
             navigation.navigate('Signup');
@@ -86,7 +86,6 @@ const styles = StyleSheet.create({
   },
   button: {
     flex: 1, // Equal width for both buttons
-    backgroundColor: 'blue',
     padding: 10,
     borderRadius: 5,
     margin: 10,
@@ -94,9 +93,21 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     color: 'white',
+
     fontSize: 16,
     fontWeight: 'bold',
     textAlign: 'center',
+  },
+  loginButtonText: {
+    color: 'black'
+  },
+  loginButton: {
+    borderWidth: 1,
+    borderColor: 'black',
+    borderStyle: 'solid',
+  },
+  signupButton: {
+    backgroundColor: 'black'
   },
   error: {
     color: 'red',
