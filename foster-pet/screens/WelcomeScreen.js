@@ -6,7 +6,7 @@ const WelcomeScreen = ({ navigation }) => {
   useEffect(() => {
     // Auto-navigate to the login page after 10 seconds
     const timer = setTimeout(() => {
-      navigation.navigate('Email');
+      navigation.navigate('Landing');
     }, 3000);
 
     return () => clearTimeout(timer);
@@ -15,26 +15,7 @@ const WelcomeScreen = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <Text style={styles.text}>Welcome to FosterPet</Text>
-      {/* <View style={styles.buttonContainer}>
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => {
-            // Handle login button press
-            navigation.navigate('Login');
-          }}
-        >
-          <Text style={styles.buttonText}>Login</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => {
-            // Handle signup button press
-            navigation.navigate('Signup');
-          }}
-        >
-          <Text style={styles.buttonText}>Signup</Text>
-        </TouchableOpacity>
-      </View> */}
+      
     </View>
   );
 };
