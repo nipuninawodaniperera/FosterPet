@@ -57,10 +57,15 @@ const RegisterScreen = ({ navigation }) => {
     try {
       const userData = await UserService.register(firstName,lastName, email, password);
       
-      console.log('Registered:', userData);
+      console.log('response:', userData);
       //sessionStorage.setItem('token',userData.token);
-      //navigate to home screen
-    navigation.navigate('EmailVerification');
+      if(userData.status=='Success'){
+      
+      navigation.navigate('EmailVerification', { email: email });
+      }else{
+        console.error('Already have an account with this Email Address');
+        setError('Already have an account with this Email Address');
+      }
     } catch (error) {
       // Handle registration error 
       console.error('Registration failed:', error.message);

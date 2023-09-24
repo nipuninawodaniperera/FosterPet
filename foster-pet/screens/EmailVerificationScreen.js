@@ -1,51 +1,72 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
-import { CodeField } from 'react-native-confirmation-code-field';
+import CustomOTPInput from '../components/CustomOTPInput';
+import UserService from '../services/UserService';
 
-
-const EmailVerificationScreen = ({ navigation }) => {
-  const [code, setCode] = useState('');
+const EmailVerificationScreen = ({ navigation,route }) => {
+  const [verificationCode, setVerificationCode] = useState('');
   const [error, setError] = useState('');
 
-  // Verification function
-  const handleVerification = () => {
-    setError('');
-    // Implement your verification logic here
-   
-  };
+  const email = route.params.email;
 
-  // Handle OTP input change
-  const handleOtpChange = (value) => {
-    setCode(value);
+  // Verification function
+  const handleVerification = async() => {
+    console.warn("email:",email);
+    console.warn('verification code: ',verificationCode);
+    setError('');
+    if(!verificationCode){
+      setError('Please enter verification');
+      return
+    }else if(verificationCode.length<6 && verificationCode){
+      setError('Verification code should have 6 digits');
+      return
+    }else{
+// call register function
+try {
+  const verificationData = await UserService.emailVerification(email,verificationCode);
+  
+  console.log('Verification data:', verificationData);
+ if(verificationData.token!==null){
+console.warn('verified');
+  navigation.navigate('Login');
+ }else{
+  setError('Invalid verification code');
+ }
+} catch (error) {
+  // Handle verification error 
+  console.error('Verification failed:', error.message);
+  setError('Invalid verification code');
+}
+    }
+
   };
 
   
-  //resend email
-const handleResend =()=>{
-    //call resend email function
-    
-}
+
+  // Resend email
+  const handleResend = () => {
+    // Call the resend email function
+  };
+
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Email Verification</Text>
-      <CodeField
-        value={code}
-        onChangeText={handleOtpChange}
-        cellCount={6}
-        rootStyle={styles.codeInputContainer}
-        textContentType="oneTimeCode" // for mobile OTP autofill
-      />
+
+      <Text >Enter vrification code here, that we send to your email address:</Text>
+      <CustomOTPInput length={6} onComplete={(otp) => setVerificationCode(otp)} />
       {error && <Text style={styles.error}>{error}</Text>}
 
       <TouchableOpacity style={styles.button} onPress={handleVerification}>
         <Text style={styles.buttonText}>Verify</Text>
       </TouchableOpacity>
+
       <Text>
-  {' '}
-  <Text style={styles.resen} onPress={handleResend}>
-    Resend
-  </Text>
-</Text>
+        {' '}
+        <Text style={styles.resend} onPress={handleResend}>
+          Resend
+        </Text>
+      </Text>
     </View>
   );
 };
@@ -55,15 +76,13 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    
   },
   title: {
     fontSize: 20,
     fontWeight: 'bold',
     marginBottom: 20,
-    marginTop:50
+    marginTop: 50,
   },
-
   button: {
     backgroundColor: 'blue',
     padding: 10,
@@ -86,11 +105,23 @@ const styles = StyleSheet.create({
     marginTop: 10,
     color: 'blue',
     textDecorationLine: 'underline',
-    marginBottom:100
+    marginBottom: 100,
   },
   codeInputContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
+  },
+  cell: {
+    width: 40,
+    height: 40,
+    lineHeight: 40,
+    fontSize: 24,
+    borderWidth: 2,
+    borderColor: 'black',
+    textAlign: 'center',
+  },
+  cellFocused: {
+    borderColor: 'blue',
   },
 });
 
