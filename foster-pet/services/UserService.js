@@ -44,13 +44,39 @@ class UserService {
           }
     
           const data = await response.json();
-          console.warn("registration completed");
+          
           console.warn(data);
           return data; // You may want to return user data or a success message
         } catch (error) {
           throw error;
         }
     }
+
+
+    //email verification
+    async emailVerification(email,verificationCode) {
+        
+      try {
+        const response = await fetch(`${this.baseUrl}/api/auth/verify`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ email,verificationCode }),
+        });
+ 
+        if (!response.ok) {
+          throw new Error('Invalid verification code');
+        }
+  
+        const data = await response.json();
+        console.warn("verified");
+        console.warn(data);
+        return data; 
+      } catch (error) {
+        throw error;
+      }
+  }
   }
   
   export default new UserService();

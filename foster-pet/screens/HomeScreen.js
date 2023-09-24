@@ -17,8 +17,7 @@ const HomeScreen = ({ navigation }) => {
 
 
   const handleSearch = () => {
-    // Implement your search logic here
-    // You can access the form values like location, checkinDate, etc.
+   
   };
 
   const handleCardOnePress = () => {
