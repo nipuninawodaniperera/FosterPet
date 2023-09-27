@@ -26,10 +26,10 @@ const Navbar = () => {
       return (
         <View style={styles.navBar}>
       <TouchableOpacity onPress={handleSearch} style={styles.iconContainer}>
-        <Icon name="search" size={24} color="#333" />
+        <Icon name="home" size={24} color="#333" />
       </TouchableOpacity>
       <TouchableOpacity onPress={handleSave} style={styles.iconContainer}>
-        <Icon name="heart" size={24} color="#333" />
+        <Icon name="save" size={24} color="#333" />
       </TouchableOpacity>
       <TouchableOpacity onPress={handleBooking} style={styles.iconContainer}>
         <Icon name="calendar" size={24} color="#333" />
