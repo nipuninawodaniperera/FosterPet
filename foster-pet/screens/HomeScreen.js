@@ -21,7 +21,8 @@ const HomeScreen = ({ navigation }) => {
 
   // Handle book a foster house
   const handleBookFosterHouse = () => {
-    // Implement booking functionality here
+    //navigate to booking screen
+    navigation.navigate('Booking');
   };
 
   // Handle take me to a home
