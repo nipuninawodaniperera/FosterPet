@@ -28,6 +28,8 @@ const HomeScreen = ({ navigation }) => {
   // Handle take me to a home
   const handleTakeMeToHome = () => {
     // Implement  "Take Me To Home" functionality here
+    navigation.navigate('BookingHouse');
+
   };
 
   return (
